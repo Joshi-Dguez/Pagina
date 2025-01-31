@@ -1,0 +1,40 @@
+body {
+    background: linear-gradient(to right, #ff9a9e, #fad0c4);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    color: #fff;
+}
+.container {
+    margin-top: 10%;
+    background: rgba(255, 255, 255, 0.2);
+    padding: 20px;
+    border-radius: 15px;
+    display: inline-block;
+}
+h1 {
+    font-size: 2.5em;
+}
+p {
+    font-size: 1.2em;
+}
+button {
+    background: #ff758c;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    font-size: 1.2em;
+    cursor: pointer;
+    border-radius: 5px;
+}
+button:hover {
+    background: #ff527b;
+}
+#sorpresa {
+    margin-top: 20px;
+    font-size: 1.5em;
+    display: none;
+    color: #ffebee;
+}
+.oculto {
+    display: block !important;
+}
