@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="Tiempo.css">
+    <title>Weather App</title>
+    <script>
+        const apiKey = '7b72b2fe43c2d9521d2a238210d2c74e'; // Reemplázalo con tu clave de OpenWeather
+
+        async function fetchWeather(city, country) {
+            try {
+                const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city},${country}&units=metric&appid=${apiKey}&lang=es`);
+                if (!response.ok) throw new Error('Ciudad no encontrada');
+                const data = await response.json();
+                updateWeatherUI(data);
+            } catch (error) {
+                alert('Error al obtener el clima. Inténtalo de nuevo.');
+            }
+        }
+
+        function updateWeatherUI(data) {
+            document.querySelector('.today-info h2').textContent = new Date().toLocaleDateString('es-ES', { weekday: 'long' });
+            document.querySelector('.today-info span').textContent = new Date().toLocaleDateString();
+            document.querySelector('.today-info div span').textContent = `${data.name}, ${data.sys.country}`;
+            document.querySelector('.weather-temp').textContent = `${Math.round(data.main.temp)}°C`;
+            document.querySelector('.today-weather h3').textContent = data.weather[0].description;
+
+            // Actualizar datos adicionales
+            document.querySelector('.precipitation').textContent = data.rain ? `${data.rain['1h']} mm` : '0 mm';
+            document.querySelector('.humidity').textContent = `${data.main.humidity}%`;
+            document.querySelector('.wind-speed').textContent = `${Math.round(data.wind.speed)} km/h`;
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            document.querySelector(".loc-button").addEventListener("click", async () => {
+                const country = prompt("Ingresa el código del país (Ejemplo: MX para México, ES para España):").toUpperCase();
+                if (!country) return;
+
+                const city = prompt("Ingresa una ciudad del país:");
+                if (!city) return;
+
+                fetchWeather(city, country);
+            });
+
+            fetchWeather("Veracruz", "MX"); // Carga inicial
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-info">
+            <div class="pic-gradient"></div>
+            <div class="today-info">
+                <h2>Loading...</h2>
+                <span>...</span>
+                <div>
+                    <i class='bx bx-current-location'></i>
+                    <span>...</span>
+                </div>
+            </div>
+            <div class="today-weather">
+                <i class='bx bx-sun'></i>
+                <h1 class="weather-temp">...</h1>
+                <h3>...</h3>
+            </div>
+        </div>
+        <div class="right-info">
+            <div class="day-info">
+                <div><span class="title">PRECIPITACIÓN</span><span class="value precipitation">-- mm</span></div>
+                <div><span class="title">HUMEDAD</span><span class="value humidity">--%</span></div>
+                <div><span class="title">VELOCIDAD DEL VIENTO</span><span class="value wind-speed">-- km/h</span></div>
+            </div>
+            <div class="btn-container">
+                <button class="loc-button">Buscar clima</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
